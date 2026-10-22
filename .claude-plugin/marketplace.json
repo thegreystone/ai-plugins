@@ -24,6 +24,24 @@
         "backports",
         "code-review"
       ]
+    },
+    {
+      "name": "mnemic",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/thegreystone/mnemic.git",
+        "path": "plugin",
+        "ref": "main"
+      },
+      "description": "Persistent local memory shared by all your AI assistants: what you told them, kept as dated facts in one SQLite file on your machine and recalled before they answer. Runs locally from a bundled binary for macOS Apple silicon and Windows x64; no account or service.",
+      "category": "productivity",
+      "tags": [
+        "memory",
+        "knowledge",
+        "recall",
+        "local-first",
+        "privacy"
+      ]
     }
   ]
 }
