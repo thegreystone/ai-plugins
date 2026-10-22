@@ -1,0 +1,29 @@
+{
+  "name": "hirt-ai-plugins",
+  "description": "Marcus Hirt's AI Plugins.",
+  "owner": {
+    "name": "Marcus Hirt",
+    "url": "https://www.hirt.se"
+  },
+  "plugins": [
+    {
+      "name": "openjdk-helper",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/thegreystone/openjdk-helper.git",
+        "path": "plugin",
+        "ref": "main"
+      },
+      "description": "Read-only tools for OpenJDK contributors and project leads: census roles, pull requests, issues and backports, JEPs, release schedules and project processes. Connects to the free hosted OpenJDK Helper MCP service; no account, Java runtime or local server needed.",
+      "category": "development",
+      "tags": [
+        "openjdk",
+        "java",
+        "jbs",
+        "jeps",
+        "backports",
+        "code-review"
+      ]
+    }
+  ]
+}
