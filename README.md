@@ -4,11 +4,11 @@ Plugin marketplace for Claude, ChatGPT and Codex.
 
 ## Plugins
 
-| Plugin | What it does |
-| --- | --- |
-| [OpenJDK Helper](https://github.com/thegreystone/openjdk-helper) | Read-only tools for OpenJDK contributors and project leads: census roles, pull requests, issues and backports, JEPs, release schedules and project processes. |
-| [Mnemic](https://github.com/thegreystone/mnemic) | Persistent local memory shared by all your AI assistants: what you told them, kept as dated facts in one SQLite file on your machine and recalled before they answer. Available for Claude Code and Codex. |
-| [Email MCP](https://github.com/thegreystone/email-mcp) | Read, search, triage and draft email over IMAP and SMTP. Runs locally, with sending and permanent deletion off by default. Available for Claude Code and Codex. |
+| Icon | Plugin | What it does |
+| :---: | --- | --- |
+| [<img src="https://raw.githubusercontent.com/thegreystone/openjdk-helper/main/plugin/assets/duke-icon.png" width="48" height="48" alt="OpenJDK Helper icon">](https://github.com/thegreystone/openjdk-helper) | [OpenJDK Helper](https://github.com/thegreystone/openjdk-helper) | Read-only tools for OpenJDK contributors and project leads: census roles, pull requests, issues and backports, JEPs, release schedules and project processes. |
+| [<img src="https://raw.githubusercontent.com/thegreystone/mnemic/main/plugin/assets/icon.png" width="48" height="48" alt="Mnemic icon">](https://github.com/thegreystone/mnemic) | [Mnemic](https://github.com/thegreystone/mnemic) | Persistent local memory shared by all your AI assistants: what you told them, kept as dated facts in one SQLite file on your machine and recalled before they answer. Available for Claude Code and Codex. |
+| [<img src="https://raw.githubusercontent.com/thegreystone/email-mcp/master/plugin/assets/icon.png" width="48" height="48" alt="Email MCP icon">](https://github.com/thegreystone/email-mcp) | [Email MCP](https://github.com/thegreystone/email-mcp) | Read, search, triage and draft email over IMAP and SMTP. Runs locally, with sending and permanent deletion off by default. Available for Claude Code and Codex. |
 
 OpenJDK Helper connects to the free hosted MCP service at `https://api.hirt.se/openjdk/mcp`. It requires no service account, local Java runtime or native executable. See its [privacy notice](https://github.com/thegreystone/openjdk-helper/blob/main/PRIVACY.md) and [service terms](https://github.com/thegreystone/openjdk-helper/blob/main/TERMS.md).
 
