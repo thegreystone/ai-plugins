@@ -42,6 +42,24 @@
         "local-first",
         "privacy"
       ]
+    },
+    {
+      "name": "email-mcp",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/thegreystone/email-mcp.git",
+        "path": "plugin",
+        "ref": "master"
+      },
+      "description": "Read, search, triage and draft email over IMAP and SMTP. Runs locally; sending and permanent deletion are off by default. The Claude Code plugin uses a native bundle for macOS Apple silicon and Windows x64.",
+      "category": "productivity",
+      "tags": [
+        "email",
+        "imap",
+        "smtp",
+        "inbox",
+        "triage"
+      ]
     }
   ]
 }

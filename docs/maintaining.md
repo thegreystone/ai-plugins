@@ -1,6 +1,6 @@
 # Maintaining the marketplace
 
-This repository is one marketplace with two catalogs, one per client family. Both share the stable identifier `hirt-ai-plugins`. OpenJDK Helper and Mnemic are listed in both catalogs. Mnemic uses a separate plugin directory for each client family.
+This repository is one marketplace with two catalogs, one per client family. Both share the stable identifier `hirt-ai-plugins`. OpenJDK Helper, Mnemic and Email MCP are listed in both catalogs. Mnemic and Email MCP use a separate plugin directory for each client family.
 
 | Client | Catalog | Display name |
 | --- | --- | --- |
@@ -58,6 +58,40 @@ The setup skill runs the launcher with `--configure --owner NAME`, optionally ad
 
 To update the Codex binary, change the launcher's pinned release version and the version in `plugin-codex/plugin.json` together after the matching standalone release assets are finalized. Validate the asset names and supported platforms before publishing. This is independent of the Claude plugin's MCP Bundle URL. Keep `plugin` and `plugin-codex` client configuration separate while preserving their shared `mnemic` plugin name.
 
+### Email MCP
+
+Both catalogs fetch `https://github.com/thegreystone/email-mcp.git` at `master`. The Claude catalog selects
+`plugin`; the OpenAI catalog selects `./plugin-codex`. Both plugin packages are named `email-mcp` and carry
+the same icon. The marketplace stores metadata only, without native binaries or npm packages.
+
+The Claude manifest pins the released universal MCP Bundle for macOS Apple silicon and Windows x64.
+Configure its IMAP and SMTP settings through `/plugin` → **Installed** → **email-mcp** → **Configure**, then
+start a new session. Passwords belong in the private configuration UI. The underlying bundle retains its
+`mcp-email` identity for existing installations. Claude Desktop users take a per-platform bundle from the
+release page; Linux users use the manual standalone configuration.
+
+The Codex package contains a portable `plugin.json`, `mcp.json`, setup and email skills, and a Node.js 18+
+launcher. It downloads and verifies one standalone executable for Linux x64/ARM64, macOS Apple silicon or
+Windows x64. The setup workflow creates a private local JSON template outside the plugin installation;
+users fill in mailbox credentials in an editor, then prefetch the binary and restart the conversation.
+The launcher redacts passwords when showing configuration. Inherited supported email environment variables
+override saved settings. Sending and permanent deletion remain opt-in.
+
+Both initial pins use release `v1.0.14`, whose published filenames still start with `mcp-email-server-`.
+New builds use `email-mcp-server-`. After publishing and signing a renamed release, update the Claude
+manifest's bundle URL and the Codex launcher's release version and artifact prefix together; bump the
+Codex manifest version as well. Do not invent a renamed asset URL for the existing release.
+
+Validate the Claude plugin with `claude plugin validate <email-mcp>/plugin`, run
+`node --test plugin-codex/tests/launcher.test.mjs` in the Email MCP checkout, and confirm the pinned release
+has the universal bundle and all supported standalone assets. The launcher's `--install` prepares a binary
+without accessing a mailbox. A real client smoke test should use a separate test account and begin with
+`listAccounts`; do not read or send real mail merely to validate installation. Local catalog validation
+does not test unpushed plugin changes, since the Git sources fetch from GitHub.
+
+See the [Email MCP plugin guide](https://github.com/thegreystone/email-mcp/blob/master/docs/PLUGINS.md).
+
+
 ## Local testing
 
 ### Claude
@@ -86,7 +120,7 @@ Catalog edits in a local-path marketplace take effect at the next session start 
 codex plugin marketplace add "C:\Users\Marcus\git\me\ai-plugins"
 ```
 
-Then install OpenJDK Helper and/or Mnemic from the Plugins Directory in the ChatGPT desktop app and enable the plugin in a new conversation. Reinstall after catalog edits: local installs use a cached copy. The Mnemic entry still fetches `plugin-codex` from GitHub, so local marketplace registration does not test unpushed Mnemic plugin changes.
+Then install OpenJDK Helper, Mnemic and/or Email MCP from the Plugins Directory in the ChatGPT desktop app and enable the plugin in a new conversation. Reinstall after catalog edits: local installs use a cached copy. The Mnemic entry still fetches `plugin-codex` from GitHub, so local marketplace registration does not test unpushed Mnemic plugin changes.
 
 For Mnemic, first parse `plugin-codex/plugin.json` and `plugin-codex/mcp.json`, run the launcher syntax check and tests described in its [guide](https://github.com/thegreystone/mnemic/blob/main/plugin-codex/README.md), and check the pinned release's standalone assets. A real client test remains necessary: install the plugin, run its setup skill with a test owner and a separate data home, restart the conversation, and ask for Mnemic's status. Confirm the reported owner and data home, and confirm the tools come from the plugin. Avoid using an existing personal memory for a smoke test or running a second manually configured Mnemic server alongside the plugin.
 
