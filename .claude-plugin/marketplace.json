@@ -60,6 +60,26 @@
         "inbox",
         "triage"
       ]
+    },
+    {
+      "name": "rpg-mcp",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/thegreystone/rpg-mcp.git",
+        "path": "plugin",
+        "ref": "master"
+      },
+      "description": "A persistent, rules-aware RPG engine (SRD 5.2.1) that turns Claude into a game master for campaigns that last for years: characters, dice, combat, loot, time and relationships live in one local SQLite file. Runs locally from a bundled binary for macOS Apple silicon, Windows x64 and Linux x64; no account or service.",
+      "category": "games",
+      "tags": [
+        "rpg",
+        "dungeon-master",
+        "game-master",
+        "5e",
+        "srd",
+        "campaign",
+        "dice"
+      ]
     }
   ]
 }

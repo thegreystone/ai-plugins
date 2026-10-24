@@ -1,6 +1,6 @@
 # Maintaining the marketplace
 
-This repository is one marketplace with two catalogs, one per client family. Both share the stable identifier `hirt-ai-plugins`. OpenJDK Helper, Mnemic and Email MCP are listed in both catalogs. Mnemic and Email MCP use a separate plugin directory for each client family.
+This repository is one marketplace with two catalogs, one per client family. Both share the stable identifier `hirt-ai-plugins`. OpenJDK Helper, Mnemic, Email MCP and RPG MCP are listed in both catalogs. Mnemic, Email MCP and RPG MCP use a separate plugin directory for each client family.
 
 | Client | Catalog | Display name |
 | --- | --- | --- |
@@ -91,6 +91,38 @@ does not test unpushed plugin changes, since the Git sources fetch from GitHub.
 
 See the [Email MCP plugin guide](https://github.com/thegreystone/email-mcp/blob/master/docs/PLUGINS.md).
 
+### RPG MCP
+
+Both catalogs fetch `https://github.com/thegreystone/rpg-mcp.git` at `master`. The Claude catalog selects
+`plugin`; the OpenAI catalog selects `./plugin-codex`. Both packages are named `rpg-mcp` and carry the same
+icon. The marketplace stores metadata only.
+
+The Claude manifest pins the release's universal MCP Bundle, for example
+`https://github.com/thegreystone/rpg-mcp/releases/download/v0.2.0/rpg-mcp-server-0.2.0-universal.mcpb`.
+Unlike Mnemic's, that bundle also carries the Linux x86_64 binary (Linux aarch64 is left out to stay under
+50 MB), so the Claude plugin works on Linux x64 as well. The server needs no configuration: the bundle's
+`user_config` declares the campaign data directory with `~/.rpg-mcp` as default and not required, so the
+server starts right after the first session downloads the bundle. Claude Desktop users take a per-platform
+bundle from the release page.
+
+The Codex package contains a portable `plugin.json`, `mcp.json`, `rpg` and `setup` skills, and a Node.js 18+
+launcher (`scripts/rpg-mcp.mjs`) that downloads and verifies one standalone executable for Linux x64/ARM64,
+macOS Apple silicon or Windows x64, caches it outside the plugin, and starts it with `RPG_DATA_DIR` set.
+`--configure --data-dir` and `--binary` are optional; the setup skill mainly exists to run `--install`
+before the first chat so the download does not hit the MCP startup timeout.
+
+Updating RPG MCP means changing the version in the Claude manifest's bundle URL, and `RELEASE_VERSION` in the
+Codex launcher together with the Codex manifest `version`, after the release has been published and its
+Windows signing script has re-packed the universal bundle. Validate with `claude plugin validate <rpg-mcp>/plugin`
+and `node --test plugin-codex/tests/launcher.test.mjs` in the RPG MCP checkout. A real client smoke test
+should point `RPG_DATA_DIR` (Codex) or the plugin's configured data directory (Claude) at an empty directory,
+ask whether RPG MCP is ready to play, and expect `CAMPAIGN_SELECTION` with no campaigns; do not run it
+against a data directory that holds a real campaign.
+
+See the RPG MCP [Claude plugin](https://github.com/thegreystone/rpg-mcp/blob/master/plugin/README.md) and
+[Codex plugin](https://github.com/thegreystone/rpg-mcp/blob/master/plugin-codex/README.md) READMEs and its
+[developer guide](https://github.com/thegreystone/rpg-mcp/blob/master/docs/DEVGUIDE.md).
+
 
 ## Local testing
 
@@ -120,7 +152,7 @@ Catalog edits in a local-path marketplace take effect at the next session start 
 codex plugin marketplace add "C:\Users\Marcus\git\me\ai-plugins"
 ```
 
-Then install OpenJDK Helper, Mnemic and/or Email MCP from the Plugins Directory in the ChatGPT desktop app and enable the plugin in a new conversation. Reinstall after catalog edits: local installs use a cached copy. The Mnemic entry still fetches `plugin-codex` from GitHub, so local marketplace registration does not test unpushed Mnemic plugin changes.
+Then install OpenJDK Helper, Mnemic, Email MCP and/or RPG MCP from the Plugins Directory in the ChatGPT desktop app and enable the plugin in a new conversation. Reinstall after catalog edits: local installs use a cached copy. The Mnemic entry still fetches `plugin-codex` from GitHub, so local marketplace registration does not test unpushed Mnemic plugin changes.
 
 For Mnemic, first parse `plugin-codex/plugin.json` and `plugin-codex/mcp.json`, run the launcher syntax check and tests described in its [guide](https://github.com/thegreystone/mnemic/blob/main/plugin-codex/README.md), and check the pinned release's standalone assets. A real client test remains necessary: install the plugin, run its setup skill with a test owner and a separate data home, restart the conversation, and ask for Mnemic's status. Confirm the reported owner and data home, and confirm the tools come from the plugin. Avoid using an existing personal memory for a smoke test or running a second manually configured Mnemic server alongside the plugin.
 
