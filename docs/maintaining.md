@@ -146,6 +146,13 @@ For Mnemic, `claude plugin validate <mnemic>/plugin` checks the manifest; the bu
 
 Catalog edits in a local-path marketplace take effect at the next session start or after `/reload-plugins`. Remove the local registration with `claude plugin marketplace remove hirt-ai-plugins` before adding the GitHub one; the two cannot share a name, and removal uninstalls the plugin installed from it.
 
+The directory listing fields `documentationUrl`, `icon`, `privacyPolicyUrl`, `supportUrl` and
+`termsOfServiceUrl` belong in the source plugin's `.claude-plugin/plugin.json`. They are valid directory
+metadata; keep them there. Claude Code 2.1.281 and later recognize them. Older validators may warn that
+they are unknown and ignore them; update the validating client or report the warning if a hosted validator
+still uses an older schema. See the
+[manifest reference](https://code.claude.com/docs/en/plugins-reference#directory-listing-fields).
+
 ### Codex
 
 ```powershell
